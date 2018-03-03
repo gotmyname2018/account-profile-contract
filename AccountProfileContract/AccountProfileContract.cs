@@ -55,7 +55,8 @@ namespace Neo.SmartContract
 
         private static bool GrantEmailBinding(string email, byte[] owner, byte[] signature)
         {
-            if (!VerifySignature(signature, CONTRACT_OWNER)) return false;
+            if (!Runtime.CheckWitness(CONTRACT_OWNER)) return false;
+            // if (!VerifySignature(signature, CONTRACT_OWNER)) return false;
             Storage.Put(Storage.CurrentContext, email, owner);
             return true;
         }
