@@ -15,23 +15,21 @@ namespace Neo.SmartContract
 
         public static object Main(string operation, params object[] args)
         {
-            switch (operation)
-            {
-                case "contractOwner":   // query contract owner public key
-                    return CONTRACT_OWNER;
-                case "emailVerifyUrl":   // query url for email address verification
-                    return EMAIL_VERIFY_URL;
-                case "query":   // query by email address
-                    return Query((string)args[0]);
-                case "queryByAccount":  // query by account script hash
-                    return QueryByAccount((byte[])args[0]);
-                case "register":    // register account profile
-                    return Register((string)args[0], (byte[])args[1]);
-                case "grant":   // grant email address binding to an account after verification success
-                    return GrantEmailBinding((string)args[0], (byte[])args[1], (byte[])args[2]);
-                default:
-                    return false;
-            }
+            if (operation == "contractOwner")   // query contract owner public key
+                return CONTRACT_OWNER;
+            if (operation == "emailVerifyUrl")  // query url for email address verification
+                return EMAIL_VERIFY_URL;
+            if (operation == "query")           // query profile by email address
+                return Query((string)args[0]);
+            if (operation == "queryByAccount")  // query profile by account script hash
+                return QueryByAccount((byte[])args[0]);
+            if (operation == "queryOwner")      // query current email address owner, return account script hash of owner
+                return QueryOwner((string)args[0]);
+            if (operation == "register")        // register account profile
+                return Register((string)args[0], (byte[])args[1]);
+            if (operation == "grant")           // grant email address binding to an account after verification success
+                return GrantEmailBinding((string)args[0], (byte[])args[1], (byte[])args[2]);
+            return false;
         }
 
         private static byte[] Query(string email)
@@ -44,6 +42,11 @@ namespace Neo.SmartContract
         private static byte[] QueryByAccount(byte[] owner)
         {
             return Storage.Get(Storage.CurrentContext, owner);
+        }
+
+        private static byte[] QueryOwner(string email)
+        {
+            return Storage.Get(Storage.CurrentContext, email);
         }
 
         private static bool Register(string profile, byte[] owner)
