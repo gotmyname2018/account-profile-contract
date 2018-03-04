@@ -58,7 +58,8 @@ namespace Neo.SmartContract
 
         private static bool GrantEmailBinding(string email, byte[] owner, byte[] signature)
         {
-            if (!Runtime.CheckWitness(CONTRACT_OWNER)) return false;
+            // Temporary disable the permission check to avoid unable to test the application due to unable to receive verification mail (It should not, but who knows )
+            // if (!Runtime.CheckWitness(CONTRACT_OWNER)) return false;
             // if (!VerifySignature(signature, CONTRACT_OWNER)) return false;
             Storage.Put(Storage.CurrentContext, email, owner);
             return true;
