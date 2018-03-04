@@ -23,8 +23,8 @@ namespace Neo.SmartContract
                     return EMAIL_VERIFY_URL;
                 case "query":   // query by email address
                     return Query((string)args[0]);
-                case "queryByKey":  // query by account public key
-                    return QueryByKey((byte[])args[0]);
+                case "queryByAccount":  // query by account script hash
+                    return QueryByAccount((byte[])args[0]);
                 case "register":    // register account profile
                     return Register((string)args[0], (byte[])args[1]);
                 case "grant":   // grant email address binding to an account after verification success
@@ -38,10 +38,10 @@ namespace Neo.SmartContract
         {
             byte[] owner = Storage.Get(Storage.CurrentContext, email);
             if (owner == null) return null;
-            return QueryByKey(owner);
+            return QueryByAccount(owner);
         }
 
-        private static byte[] QueryByKey(byte[] owner)
+        private static byte[] QueryByAccount(byte[] owner)
         {
             return Storage.Get(Storage.CurrentContext, owner);
         }
