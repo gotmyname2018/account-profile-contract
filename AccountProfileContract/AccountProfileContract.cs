@@ -8,17 +8,22 @@ namespace Neo.SmartContract
     public class AccountProfileContract : Framework.SmartContract
     {
         // contract owner public key
-        private static readonly byte[] CONTRACT_OWNER = { 0x02, 0xf1, 0x17, 0xf5, 0xc0, 0x57, 0x88, 0x76, 0x9d, 0x84, 0x03, 0x71, 0x55, 0xa0, 0x93, 0x2a, 0xdd, 0x29, 0xf5, 0x69, 0xfb, 0x9f, 0xdc, 0xfc, 0x61, 0xe9, 0x0e, 0x0f, 0x63, 0x77, 0xfa, 0x5b, 0x38 };
+        private static readonly byte[] CONTRACT_OWNER = { 0x02, 0xac, 0xc3, 0x01, 0x80, 0xcf, 0xd3, 0xa7, 0xab, 0xcd, 0x40, 0xc4, 0x20, 0x91, 0x50, 0x2f, 0x8d, 0xa7, 0x61, 0x8f, 0x18, 0x52, 0x07, 0xd2, 0xa9, 0x19, 0xbd, 0xf4, 0xc2, 0x44, 0x98, 0xe1, 0x03 };
 
-        // contract owner url
-        private static readonly string EMAIL_VERIFY_URL = "http://localhost:8088/_api/verify";
+        // email address verification request url
+        private static readonly string EMAIL_VERIFY_REQ_URL = "http://yun10dai.com:3000/_api/neo-mail/verifyreq";
+
+        // email address verification response url
+        private static readonly string EMAIL_VERIFY_RESP_URL = "http://yun10dai.com:3000/_api/neo-mail/verifyresp";
 
         public static object Main(string operation, params object[] args)
         {
             if (operation == "contractOwner")   // query contract owner public key
                 return CONTRACT_OWNER;
-            if (operation == "emailVerifyUrl")  // query url for email address verification
-                return EMAIL_VERIFY_URL;
+            if (operation == "emailVerifyReqUrl")  // query url for email address verification request
+                return EMAIL_VERIFY_REQ_URL;
+            if (operation == "emailVerifyRespUrl")  // query url for email address verification response
+                return EMAIL_VERIFY_RESP_URL;
             if (operation == "query")           // query profile by email address
                 return Query((string)args[0]);
             if (operation == "queryByAccount")  // query profile by account script hash
